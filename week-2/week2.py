@@ -30,6 +30,7 @@ while continueFlag:
     chooseCourse = 1
     while chooseCourse:
         course = input("What is the course? Choose from: {} ".format(courses_string))
+        course = course.lower() #Convert to lower case to make case insensitive
         if (course in str(courses)):
             chooseCourse = 0
         else :
@@ -38,19 +39,30 @@ while continueFlag:
 
     grade = input("What was his/her grade? ")
 
-    saveInput = 0
-    while saveInput == 0:
-        saveInput = input("Is it true that {0} had an {1} for {2}".format(name, grade, course, format_spec='{2}'))
+    #Allow the user to check wether it's input was coorect
+    saveInputString = input("Is it true that {0} had an {1} for {2}? [Y/N]".format(name, grade, course, format_spec='{2}'))
+    saveInputString = saveInputString.lower() #Convert to lower case to make case insensitive
+    if saveInputString == 'y':
+        saveInput = True
+    elif saveInputString == 'n':
+        saveInput = False
+    elif saveInputString == 'n':
+        saveInput = False
 
-    #Save input
-    for i in range(courses_amount):
-        if course == courses[i]:
-            grades[courses[i]][name] = grade
+    #Save input if desired
+    if saveInput:
+        for i in range(courses_amount):
+            if course == courses[i]:
+                grades[courses[i]][name] = grade
+                students.append(name)
 
+    #Display the grades which have been inserted in a nice way
+    for courseName in grades:
+        print(courseName)
+        for student in grades[courseName]:
+            print('-',student, ':', grades[courseName][student])
 
-    print(grades)
-    students.append(name)
-
+    #Ask the user if he/she want to continue and set flag acordingly
     continueInput = input("Do you want to continue? (Y/N)")
     if continueInput == 'Y' or continueInput == 'y':
        continueFlag = 1
